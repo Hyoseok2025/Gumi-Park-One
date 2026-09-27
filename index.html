@@ -56,7 +56,7 @@
       height: 8px;
       background-color: #F3E5AB;
       border-radius: 50%;
-      z-index: 99999;
+      z-index: 9999999;
       transform: translate(-50%, -50%);
       box-shadow: 0 0 10px #D4AF37;
     }
@@ -70,7 +70,7 @@
       height: 36px;
       border: 1.5px solid #D4AF37;
       border-radius: 50%;
-      z-index: 99998;
+      z-index: 9999998;
       transform: translate(-50%, -50%);
       transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
     }
@@ -118,6 +118,21 @@
       color: #F3E5AB;
       font-weight: 700;
     }
+
+    /* 팝업 모달 기본 표시 및 제어용 */
+    #bookingModal {
+      display: flex !important;
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background-color: rgba(0, 0, 0, 0.88);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    #bookingModal.modal-closed {
+      display: none !important;
+    }
   </style>
 </head>
 <body class="bg-[#07090D] text-gray-200 selection:bg-[#D4AF37] selection:text-black">
@@ -125,6 +140,43 @@
   <!-- 커스텀 커서 -->
   <div id="custom-cursor-dot" class="hidden md:block"></div>
   <div id="custom-cursor-ring" class="hidden md:block"></div>
+
+  <!-- 이미지 기반 이벤트 팝업 모달 (35.jpg) -->
+  <div id="bookingModal">
+    <div class="bg-[#121622] border-2 border-[#D4AF37] rounded-2xl w-full max-w-md max-h-[92vh] overflow-hidden shadow-[0_0_60px_rgba(212,175,55,0.35)] flex flex-col relative animate-fade">
+      
+      <!-- 우측 상단 닫기 X 버튼 -->
+      <button type="button" onclick="closeBookingModal()" class="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-black/80 border border-[#D4AF37]/50 text-gray-200 hover:text-white flex items-center justify-center transition-all cursor-pointer">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <!-- 35.jpg 이벤트 이미지 영역 -->
+      <div class="overflow-y-auto max-h-[66vh] bg-black">
+        <img src="images/35.jpg" alt="구미 파크원 데시앙 관심고객등록 이벤트" class="w-full h-auto object-contain block">
+      </div>
+
+      <!-- 하단 버튼 및 오늘 하루 닫기 영역 -->
+      <div class="p-4 bg-[#0C0F17] border-t border-[#2A241A] space-y-3">
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeBookingModal()" class="w-1/3 py-2.5 rounded-xl border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white text-xs font-bold transition-all cursor-pointer">
+            닫기
+          </button>
+          <button type="button" onclick="goToRegisterFromModal()" class="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#997D25] text-black text-xs font-black tracking-wide hover:brightness-110 shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>관심고객 등록하기</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </button>
+        </div>
+
+        <div class="flex justify-end items-center pt-1 text-[11px] text-gray-400">
+          <label class="flex items-center space-x-1.5 cursor-pointer hover:text-gray-200 select-none">
+            <input type="checkbox" id="modal_dont_show_today" class="w-3.5 h-3.5 rounded bg-[#121622] border-brand-border text-[#D4AF37] focus:ring-0">
+            <span>오늘 하루 동안 보지 않기</span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- 상단 네비게이션 헤더 -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-[#07090D]/90 backdrop-blur-md border-b border-[#2A241A]">
@@ -148,7 +200,7 @@
           <i class="fa-solid fa-phone text-sm"></i>
           <span>010-5031-0330</span>
         </a>
-        <button onclick="openBookingModal()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#997D25] text-black font-bold text-xs tracking-wider uppercase hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all">
+        <button onclick="openBookingModal()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#997D25] text-black font-bold text-xs tracking-wider uppercase hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all cursor-pointer">
           관심고객 등록
         </button>
       </div>
@@ -170,7 +222,7 @@
         <a href="tel:010-5031-0330" class="text-[#D4AF37] font-bold flex items-center justify-center py-2 border border-[#D4AF37]/40 rounded-lg">
           <i class="fa-solid fa-phone mr-2"></i> 010-5031-0330
         </a>
-        <button onclick="openBookingModal(); toggleMobileMenu();" class="w-full py-3 bg-[#D4AF37] text-black font-bold rounded-lg">
+        <button onclick="openBookingModal(); toggleMobileMenu();" class="w-full py-3 bg-[#D4AF37] text-black font-bold rounded-lg cursor-pointer">
           관심고객 등록
         </button>
       </div>
@@ -192,10 +244,10 @@
             <span class="gold-gradient-text">GUMI PARK ONE DESIAN</span>
           </h1>
           <p class="text-gray-300 text-xs sm:text-base lg:text-lg mb-6 line-clamp-2">
-            55만㎡ 대규모 도량민간공원을 품은 2,648세대 프리미엄 대단지 라이프를 가장 먼저 만나보십시오.
+            55만㎡ 대규모 도량민간공원을 품은 2,648세대 프리미엄 대단지 라이프를 가장 먼저 만나보십시오.[cite: 1]
           </p>
           <div class="flex flex-wrap gap-3">
-            <button onclick="openBookingModal()" class="px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#997D25] text-black font-bold text-xs sm:text-sm rounded-lg hover:brightness-110 transition-all flex items-center">
+            <button onclick="openBookingModal()" class="px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#997D25] text-black font-bold text-xs sm:text-sm rounded-lg hover:brightness-110 transition-all flex items-center cursor-pointer">
               <span>관심고객 등록</span>
               <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
             </button>
@@ -236,29 +288,29 @@
             </div>
             <div class="bg-[#121622] p-5 rounded-lg border border-[#2A241A]">
               <span class="text-xs text-gray-400 block mb-1">대지위치</span>
-              <p class="text-base font-bold text-white">경북 구미시 도량동 산40-4번지 일원</p>
+              <p class="text-base font-bold text-white">경북 구미시 도량동 산40-4번지 일원</p>[cite: 1]
             </div>
             <div class="bg-[#121622] p-5 rounded-lg border border-[#2A241A]">
               <span class="text-xs text-gray-400 block mb-1">세대수</span>
-              <p class="text-base font-bold text-[#D4AF37]">총 2,648세대 <span class="text-xs font-normal text-gray-300">(1단지 1,355세대)</span></p>
+              <p class="text-base font-bold text-[#D4AF37]">총 2,648세대 <span class="text-xs font-normal text-gray-300">(1단지 1,355세대)</span></p>[cite: 1]
             </div>
             <div class="bg-[#121622] p-5 rounded-lg border border-[#2A241A]">
               <span class="text-xs text-gray-400 block mb-1">건축규모</span>
-              <p class="text-base font-bold text-white">지하 3층 ~ 지상 최고 40층</p>
+              <p class="text-base font-bold text-white">지하 3층 ~ 지상 최고 40층</p>[cite: 1]
             </div>
             <div class="bg-[#121622] p-5 rounded-lg border border-[#2A241A]">
               <span class="text-xs text-gray-400 block mb-1">대지 / 연면적</span>
-              <p class="text-sm font-bold text-white">70,672.00㎡ / 276,476.02㎡</p>
+              <p class="text-sm font-bold text-white">70,672.00㎡ / 276,476.02㎡</p>[cite: 1]
             </div>
             <div class="bg-[#121622] p-5 rounded-lg border border-[#2A241A]">
               <span class="text-xs text-gray-400 block mb-1">건폐율 / 용적률</span>
-              <p class="text-base font-bold text-white">11.79% / 246.41%</p>
+              <p class="text-base font-bold text-white">11.79% / 246.41%</p>[cite: 1]
             </div>
             <div class="bg-[#121622] p-5 rounded-lg border border-[#2A241A] sm:col-span-2">
               <div class="flex justify-between items-center">
                 <div>
                   <span class="text-xs text-gray-400 block mb-1">총 주차대수</span>
-                  <p class="text-base font-bold text-white">총 2,222대 <span class="text-[#D4AF37]">(세대당 1.64대 여유 특화)</span></p>
+                  <p class="text-base font-bold text-white">총 2,222대 <span class="text-[#D4AF37]">(세대당 1.64대 여유 특화)</span></p>[cite: 1]
                 </div>
                 <span class="px-3 py-1 bg-[#D4AF37]/10 text-[#F3E5AB] text-xs rounded border border-[#D4AF37]/30">
                   확장형 주차공간 약 80%
@@ -306,25 +358,25 @@
           <h4 class="text-[#D4AF37] font-bold text-base flex items-center mb-2">
             <i class="fa-solid fa-train-subway mr-2.5"></i> 광역 교통망
           </h4>
-          <p class="text-sm text-gray-300">경부선 구미역, 대구권 광역철도, 북구미IC 및 경부고속도로, 도량-지산도로(예정) 쾌속 연결.</p>
+          <p class="text-sm text-gray-300">경부선 구미역, 대구권 광역철도, 북구미IC 및 경부고속도로, 도량-지산도로(예정) 쾌속 연결.[cite: 2]</p>
         </div>
         <div class="fade-up-element bg-[#121622] p-5 rounded-lg border border-[#2A241A]">
           <h4 class="text-[#D4AF37] font-bold text-base flex items-center mb-2">
             <i class="fa-solid fa-graduation-cap mr-2.5"></i> 명품 학군
           </h4>
-          <p class="text-sm text-gray-300">도량초, 문장초, 도송중, 구미고, 구미여고 등 도보권 학군과 구미대, 금오공대 인접.</p>
+          <p class="text-sm text-gray-300">도량초, 문장초, 도송중, 구미고, 구미여고 등 도보권 학군과 구미대, 금오공대 인접.[cite: 2]</p>
         </div>
         <div class="fade-up-element bg-[#121622] p-5 rounded-lg border border-[#2A241A]">
           <h4 class="text-[#D4AF37] font-bold text-base flex items-center mb-2">
             <i class="fa-solid fa-tree mr-2.5"></i> 힐링 자연환경
           </h4>
-          <p class="text-sm text-gray-300">55만㎡ 민간공원과 금오산 도립공원, 문성지 들성생태공원, 낙동강 체육공원을 품은 숲세권.</p>
+          <p class="text-sm text-gray-300">55만㎡ 민간공원과 금오산 도립공원, 문성지 들성생태공원, 낙동강 체육공원을 품은 숲세권.[cite: 2]</p>
         </div>
         <div class="fade-up-element bg-[#121622] p-5 rounded-lg border border-[#2A241A]">
           <h4 class="text-[#D4AF37] font-bold text-base flex items-center mb-2">
             <i class="fa-solid fa-bag-shopping mr-2.5"></i> 중심 생활 인프라
           </h4>
-          <p class="text-sm text-gray-300">중앙시장, 동아백화점, 이마트, CGV, 롯데시네마, 구미시립중앙도서관(예정), 시청, 법원 인접.</p>
+          <p class="text-sm text-gray-300">중앙시장, 동아백화점, 이마트, CGV, 롯데시네마, 구미시립중앙도서관(예정), 시청, 법원 인접.[cite: 2]</p>
         </div>
       </div>
     </div>
@@ -423,16 +475,16 @@
       </div>
 
       <div class="fade-up-element flex flex-wrap justify-center gap-2 sm:gap-4 mb-12">
-        <button onclick="switchTab('wellness')" id="tab-wellness" class="comm-tab px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold border border-[#D4AF37] bg-[#D4AF37] text-black transition-all">
+        <button onclick="switchTab('wellness')" id="tab-wellness" class="comm-tab px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold border border-[#D4AF37] bg-[#D4AF37] text-black transition-all cursor-pointer">
           WELLNESS (건강)
         </button>
-        <button onclick="switchTab('family')" id="tab-family" class="comm-tab px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold border border-[#2A241A] bg-[#121622] text-gray-300 transition-all">
+        <button onclick="switchTab('family')" id="tab-family" class="comm-tab px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold border border-[#2A241A] bg-[#121622] text-gray-300 transition-all cursor-pointer">
           FAMILY (가족·자녀)
         </button>
-        <button onclick="switchTab('culture')" id="tab-culture" class="comm-tab px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold border border-[#2A241A] bg-[#121622] text-gray-300 transition-all">
+        <button onclick="switchTab('culture')" id="tab-culture" class="comm-tab px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold border border-[#2A241A] bg-[#121622] text-gray-300 transition-all cursor-pointer">
           CULTURE (문화·여가)
         </button>
-        <button onclick="switchTab('living')" id="tab-living" class="comm-tab px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold border border-[#2A241A] bg-[#121622] text-gray-300 transition-all">
+        <button onclick="switchTab('living')" id="tab-living" class="comm-tab px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold border border-[#2A241A] bg-[#121622] text-gray-300 transition-all cursor-pointer">
           LIVING (편의특화)
         </button>
       </div>
@@ -445,7 +497,7 @@
           </div>
           <div class="p-4">
             <h4 class="text-[#D4AF37] font-bold text-base mb-1">실내체육관 (러닝트랙)</h4>
-            <p class="text-xs text-gray-400 mb-2">날씨 걱정 없이 러닝과 운동을 즐길 수 있는 공간</p>
+            <p class="text-xs text-gray-400 mb-2">날씨 걱정 없이 러닝과 운동을 즐길 수 있는 공간</p>[cite: 4]
             <p class="text-[10px] text-gray-500">※ 상기 이미지는 이해를 돕기 위해 생성형 ai 이미지를 사용했으며 실제 사진과 다를 수 있습니다.</p>
           </div>
         </div>
@@ -455,7 +507,7 @@
           </div>
           <div class="p-4">
             <h4 class="text-[#D4AF37] font-bold text-base mb-1">피트니스센터</h4>
-            <p class="text-xs text-gray-400 mb-2">건강한 활력을 채우는 피트니스 공간</p>
+            <p class="text-xs text-gray-400 mb-2">건강한 활력을 채우는 피트니스 공간</p>[cite: 4]
             <p class="text-[10px] text-gray-500">※ 상기 이미지는 이해를 돕기 위해 생성형 ai 이미지를 사용했으며 실제 사진과 다를 수 있습니다.</p>
           </div>
         </div>
@@ -465,7 +517,7 @@
           </div>
           <div class="p-4">
             <h4 class="text-[#D4AF37] font-bold text-base mb-1">골프연습장</h4>
-            <p class="text-xs text-gray-400 mb-2">언제든 편리하게 골프를 즐기는 연습 공간</p>
+            <p class="text-xs text-gray-400 mb-2">언제든 편리하게 골프를 즐기는 연습 공간</p>[cite: 4]
             <p class="text-[10px] text-gray-500">※ 상기 이미지는 이해를 돕기 위해 생성형 ai 이미지를 사용했으며 실제 사진과 다를 수 있습니다.</p>
           </div>
         </div>
@@ -475,7 +527,7 @@
           </div>
           <div class="p-4">
             <h4 class="text-[#D4AF37] font-bold text-base mb-1">사우나</h4>
-            <p class="text-xs text-gray-400 mb-2">하루의 피로를 편안하게 풀어주는 힐링 공간</p>
+            <p class="text-xs text-gray-400 mb-2">하루의 피로를 편안하게 풀어주는 힐링 공간</p>[cite: 4]
             <p class="text-[10px] text-gray-500">※ 상기 이미지는 이해를 돕기 위해 생성형 ai 이미지를 사용했으며 실제 사진과 다를 수 있습니다.</p>
           </div>
         </div>
@@ -879,7 +931,7 @@
           </label>
         </div>
 
-        <button type="submit" id="mainSubmitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-black font-extrabold text-base tracking-wider hover:brightness-110 shadow-lg transition-all">
+        <button type="submit" id="mainSubmitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-black font-extrabold text-base tracking-wider hover:brightness-110 shadow-lg transition-all cursor-pointer">
           관심고객 등록 완료
         </button>
       </form>
@@ -950,48 +1002,9 @@
     <a href="tel:010-5031-0330" class="flex-1 py-3 bg-[#121622] border border-[#D4AF37]/50 rounded-lg text-[#D4AF37] text-xs font-bold text-center">
       <i class="fa-solid fa-phone mr-1"></i> 전화상담
     </a>
-    <button onclick="openBookingModal()" class="flex-1 py-3 bg-[#D4AF37] text-black rounded-lg text-xs font-extrabold text-center">
+    <button onclick="openBookingModal()" class="flex-1 py-3 bg-[#D4AF37] text-black rounded-lg text-xs font-extrabold text-center cursor-pointer">
       관심고객 등록
     </button>
-  </div>
-
-  <!-- 이미지 기반 이벤트 팝업 모달 (35.jpg) -->
-  <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 sm:p-4" style="display: flex;">
-    <div class="bg-[#121622] border border-[#D4AF37]/70 rounded-2xl w-full max-w-md max-h-[95vh] overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.25)] flex flex-col relative">
-      
-      <!-- 우측 상단 닫기 X 버튼 -->
-      <button type="button" onclick="closeBookingModal()" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/70 border border-[#D4AF37]/40 text-gray-300 hover:text-white flex items-center justify-center transition-all cursor-pointer">
-        <i class="fa-solid fa-xmark text-sm"></i>
-      </button>
-
-      <!-- 35.jpg 이벤트 이미지 영역 (스크롤 가능) -->
-      <div class="overflow-y-auto max-h-[68vh] bg-black">
-        <img src="images/35.jpg" alt="구미 파크원 데시앙 관심고객등록 이벤트" class="w-full h-auto object-contain block">
-      </div>
-
-      <!-- 하단 버튼 및 오른쪽 맨 밑 '하루동안 닫기' 체크박스 바 -->
-      <div class="p-4 bg-[#0C0F17] border-t border-[#2A241A] space-y-3">
-        <!-- 닫기와 관심고객 등록하기 2단 버튼 -->
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="closeBookingModal()" class="w-1/3 py-2.5 rounded-xl border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white text-xs font-bold transition-all cursor-pointer">
-            닫기
-          </button>
-          <button type="button" onclick="goToRegisterFromModal()" class="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#997D25] text-black text-xs font-black tracking-wide hover:brightness-110 shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-            <span>관심고객 등록하기</span>
-            <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-
-        <!-- 오른쪽 맨 밑 하루동안 닫기 체크박스 -->
-        <div class="flex justify-end items-center pt-1 text-[11px] text-gray-400">
-          <label class="flex items-center space-x-1.5 cursor-pointer hover:text-gray-200 select-none">
-            <input type="checkbox" id="modal_dont_show_today" class="w-3.5 h-3.5 rounded bg-[#121622] border-brand-border text-[#D4AF37] focus:ring-0">
-            <span>오늘 하루 동안 보지 않기</span>
-          </label>
-        </div>
-      </div>
-
-    </div>
   </div>
 
   <script>
@@ -1048,7 +1061,7 @@
     });
 
     // ==========================================
-    // UI 및 모달 인터랙션 스크립트
+    // UI 및 모달 제어 로직
     // ==========================================
     function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');
@@ -1078,7 +1091,7 @@
 
     function openBookingModal() {
       if (bookingModal) {
-        bookingModal.style.display = 'flex';
+        bookingModal.classList.remove('modal-closed');
       }
     }
 
@@ -1091,7 +1104,7 @@
         } catch (e) {}
       }
       if (bookingModal) {
-        bookingModal.style.display = 'none';
+        bookingModal.classList.add('modal-closed');
       }
     }
 
@@ -1105,19 +1118,16 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       // 오늘 하루 동안 보지 않기 여부 체크
-      let isHidden = false;
       try {
         const hideDate = localStorage.getItem('hideParkonePopupDate');
         const today = new Date().toISOString().split('T')[0];
         if (hideDate === today) {
-          isHidden = true;
+          if (bookingModal) bookingModal.classList.add('modal-closed');
+        } else {
+          if (bookingModal) bookingModal.classList.remove('modal-closed');
         }
-      } catch (e) {}
-
-      if (isHidden) {
-        if (bookingModal) bookingModal.style.display = 'none';
-      } else {
-        if (bookingModal) bookingModal.style.display = 'flex';
+      } catch (e) {
+        if (bookingModal) bookingModal.classList.remove('modal-closed');
       }
 
       // 페이드업 스크롤 감지
