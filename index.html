@@ -41,7 +41,8 @@
       body.custom-cursor-enabled button, 
       body.custom-cursor-enabled input, 
       body.custom-cursor-enabled select, 
-      body.custom-cursor-enabled textarea {
+      body.custom-cursor-enabled textarea,
+      body.custom-cursor-enabled label {
         cursor: none !important;
       }
     }
@@ -791,7 +792,7 @@
     </div>
   </section>
 
-  <!-- 8. 관심고객 등록 폼 (EmailJS 연동) -->
+  <!-- 8. 관심고객 등록 폼 (타입 선택 및 생년월일 추가, EmailJS 연동) -->
   <section id="reservation" class="py-20 bg-[#0C0F17] border-t border-[#2A241A]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="fade-up-element text-center mb-12">
@@ -801,7 +802,7 @@
       </div>
 
       <form id="mainContactForm" class="fade-up-element bg-[#121622] p-6 sm:p-10 rounded-2xl border border-[#D4AF37]/40 shadow-2xl space-y-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <div>
             <label class="block text-xs font-semibold text-[#F3E5AB] mb-2">성함 <span class="text-red-500">*</span></label>
             <input type="text" id="main_name" required placeholder="홍길동" class="w-full bg-[#0C0F17] border border-[#2A241A] rounded-lg px-4 py-3 text-white text-sm focus:border-[#D4AF37] focus:outline-none">
@@ -809,6 +810,37 @@
           <div>
             <label class="block text-xs font-semibold text-[#F3E5AB] mb-2">연락처 <span class="text-red-500">*</span></label>
             <input type="tel" id="main_phone" required placeholder="010-1234-5678" class="w-full bg-[#0C0F17] border border-[#2A241A] rounded-lg px-4 py-3 text-white text-sm focus:border-[#D4AF37] focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#F3E5AB] mb-2">생년월일 <span class="text-red-500">*</span></label>
+            <input type="text" id="main_birth" required placeholder="19900101 (8자리)" maxlength="8" class="w-full bg-[#0C0F17] border border-[#2A241A] rounded-lg px-4 py-3 text-white text-sm focus:border-[#D4AF37] focus:outline-none">
+          </div>
+        </div>
+
+        <!-- 관심타입 라디오 버튼 선택 영역 -->
+        <div>
+          <label class="block text-xs font-semibold text-[#F3E5AB] mb-3">관심타입 <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-[#0C0F17] p-4 rounded-lg border border-[#2A241A]">
+            <label class="flex items-center space-x-2.5 text-sm text-gray-300">
+              <input type="radio" name="main_interest_type" value="84A(35평)" checked class="w-4 h-4 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>84A(35평)</span>[cite: 12]
+            </label>
+            <label class="flex items-center space-x-2.5 text-sm text-gray-300">
+              <input type="radio" name="main_interest_type" value="84B(35평)" class="w-4 h-4 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>84B(35평)</span>[cite: 12]
+            </label>
+            <label class="flex items-center space-x-2.5 text-sm text-gray-300">
+              <input type="radio" name="main_interest_type" value="98A(40평)" class="w-4 h-4 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>98A(40평)</span>[cite: 12]
+            </label>
+            <label class="flex items-center space-x-2.5 text-sm text-gray-300">
+              <input type="radio" name="main_interest_type" value="98B(40평)" class="w-4 h-4 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>98B(40평)</span>[cite: 12]
+            </label>
+            <label class="flex items-center space-x-2.5 text-sm text-gray-300">
+              <input type="radio" name="main_interest_type" value="110(45평)" class="w-4 h-4 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>110(45평)</span>[cite: 12]
+            </label>
           </div>
         </div>
 
@@ -820,7 +852,7 @@
         <div class="p-4 bg-[#0C0F17] rounded-lg border border-[#2A241A] text-xs text-gray-400 space-y-2">
           <p class="font-bold text-gray-200">[개인정보 수집 및 이용 동의서]</p>
           <p>1. <strong>수집 및 이용 목적</strong>: 구미 파크원 데시앙 상담, 관심고객 관리 및 안내 문자 발송</p>
-          <p>2. <strong>수집 항목</strong>: 성함, 연락처, 문의 내용</p>
+          <p>2. <strong>수집 항목</strong>: 성함, 연락처, 생년월일, 관심타입, 문의 내용</p>
           <p>3. <strong>보유 및 이용 기간</strong>: 목적 달성 시 혹은 고객 요청 시 지체 없이 파기 (최대 6개월 보유)</p>
           <p>4. <strong>동의 거부 권리</strong>: 귀하는 본 동의를 거부할 권리가 있으나, 거부 시 관심고객 상담 서비스 이용이 제한될 수 있습니다.</p>
         </div>
@@ -839,7 +871,7 @@
     </div>
   </section>
 
-  <!-- 푸터 -->
+  <!-- 푸터 (상호, 사업자번호, 고객문의, 이메일, 관리자 정보 반영) -->
   <footer class="bg-[#07090D] py-12 border-t border-[#2A241A] text-gray-500 text-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#2A241A] pb-6">
@@ -848,11 +880,21 @@
           <span class="text-xs text-gray-400">현장: 경상북도 구미시 도량동 산 40-4</span>
         </div>
         <div class="mt-4 sm:mt-0 text-right">
-          <span class="text-xs text-gray-400 block">분양 문의</span>
+          <span class="text-xs text-gray-400 block">고객문의</span>
           <a href="tel:010-5031-0330" class="text-xl font-black text-[#D4AF37]">010-5031-0330</a>
         </div>
       </div>
-      <p class="text-gray-600">© 2026 GUMI PARK ONE DESIAN. All Rights Reserved.</p>
+
+      <!-- 상호, 사업자등록번호, 고객문의, 이메일, 사이트 관리자 상세 영역 -->
+      <div class="leading-relaxed text-gray-400 space-y-1.5 pt-2">
+        <p>• 상호: <span class="text-gray-200 font-medium">구미 파크원 데시앙 공인중개사 사무소</span></p>
+        <p>• 사업자등록번호: <span class="text-gray-200 font-medium">565-70-00500</span></p>
+        <p>• 고객문의: <span class="text-gray-200 font-semibold">010-5031-0330</span></p>
+        <p>• 이메일: <span class="text-gray-200">jku058@naver.com</span></p>
+        <p>• 사이트 관리자: <span class="text-gray-200">장기욱</span></p>
+      </div>
+
+      <p class="text-gray-600 pt-3">© 2026 GUMI PARK ONE DESIAN. All Rights Reserved.</p>
     </div>
   </footer>
 
@@ -866,8 +908,8 @@
     </button>
   </div>
 
-  <!-- 자동 팝업 모달 (관심고객 등록) -->
-  <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 hidden">
+  <!-- 자동 팝업 모달 (처음부터 오픈) -->
+  <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4">
     <div class="bg-[#121622] border border-[#D4AF37]/60 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-[0_0_50px_rgba(212,175,55,0.2)] relative">
       <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">
         <i class="fa-solid fa-xmark"></i>
@@ -885,9 +927,41 @@
           <input type="text" id="modal_name" required placeholder="성함을 입력해주세요" class="w-full bg-[#0C0F17] border border-[#2A241A] rounded px-3 py-2 text-white text-xs focus:border-[#D4AF37] focus:outline-none">
         </div>
 
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-[#F3E5AB] mb-1">연락처 <span class="text-red-500">*</span></label>
+            <input type="tel" id="modal_phone" required placeholder="010-0000-0000" class="w-full bg-[#0C0F17] border border-[#2A241A] rounded px-3 py-2 text-white text-xs focus:border-[#D4AF37] focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#F3E5AB] mb-1">생년월일 <span class="text-red-500">*</span></label>
+            <input type="text" id="modal_birth" required placeholder="19900101" maxlength="8" class="w-full bg-[#0C0F17] border border-[#2A241A] rounded px-3 py-2 text-white text-xs focus:border-[#D4AF37] focus:outline-none">
+          </div>
+        </div>
+
         <div>
-          <label class="block text-xs font-semibold text-[#F3E5AB] mb-1">연락처 <span class="text-red-500">*</span></label>
-          <input type="tel" id="modal_phone" required placeholder="010-0000-0000" class="w-full bg-[#0C0F17] border border-[#2A241A] rounded px-3 py-2 text-white text-xs focus:border-[#D4AF37] focus:outline-none">
+          <label class="block text-xs font-semibold text-[#F3E5AB] mb-1">관심타입 <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-2 gap-2 bg-[#0C0F17] p-2.5 rounded border border-[#2A241A] text-xs">
+            <label class="flex items-center space-x-1.5 text-gray-300">
+              <input type="radio" name="modal_interest_type" value="84A(35평)" checked class="w-3.5 h-3.5 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>84A(35평)</span>[cite: 12]
+            </label>
+            <label class="flex items-center space-x-1.5 text-gray-300">
+              <input type="radio" name="modal_interest_type" value="84B(35평)" class="w-3.5 h-3.5 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>84B(35평)</span>[cite: 12]
+            </label>
+            <label class="flex items-center space-x-1.5 text-gray-300">
+              <input type="radio" name="modal_interest_type" value="98A(40평)" class="w-3.5 h-3.5 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>98A(40평)</span>[cite: 12]
+            </label>
+            <label class="flex items-center space-x-1.5 text-gray-300">
+              <input type="radio" name="modal_interest_type" value="98B(40평)" class="w-3.5 h-3.5 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>98B(40평)</span>[cite: 12]
+            </label>
+            <label class="flex items-center space-x-1.5 text-gray-300 col-span-2">
+              <input type="radio" name="modal_interest_type" value="110(45평)" class="w-3.5 h-3.5 text-[#D4AF37] bg-brand-dark border-brand-border focus:ring-0">
+              <span>110(45평)</span>[cite: 12]
+            </label>
+          </div>
         </div>
 
         <div>
@@ -898,7 +972,7 @@
         <div class="p-3 bg-[#0C0F17] rounded border border-[#2A241A] text-[11px] text-gray-400 space-y-1">
           <p class="font-bold text-gray-200">[개인정보 수집 및 이용 동의서]</p>
           <p>1. <strong>수집 및 이용 목적</strong>: 구미 파크원 데시앙 상담, 관심고객 관리 및 안내 문자 발송</p>
-          <p>2. <strong>수집 항목</strong>: 성함, 연락처, 문의 내용</p>
+          <p>2. <strong>수집 항목</strong>: 성함, 연락처, 생년월일, 관심타입, 문의 내용</p>
           <p>3. <strong>보유 및 이용 기간</strong>: 목적 달성 시 혹은 고객 요청 시 지체 없이 파기 (최대 6개월 보유)</p>
           <p>4. <strong>동의 거부 권리</strong>: 귀하는 본 동의를 거부할 권리가 있으나, 거부 시 관심고객 상담 서비스 이용이 제한될 수 있습니다.</p>
         </div>
@@ -914,10 +988,7 @@
           관심고객 등록 제출하기
         </button>
 
-        <div class="flex justify-between items-center pt-2 text-[11px] text-gray-400">
-          <button type="button" onclick="closeForToday()" class="hover:text-[#D4AF37]">
-            오늘 하루 보지 않기
-          </button>
+        <div class="flex justify-end items-center pt-2 text-[11px] text-gray-400">
           <button type="button" onclick="closeBookingModal()" class="hover:text-white">
             닫기
           </button>
@@ -928,7 +999,7 @@
 
   <script>
     // ==========================================
-    // EmailJS 실제 인증 키 반영 완료
+    // EmailJS 실제 인증 키 설정
     // ==========================================
     const EMAILJS_SERVICE_ID = "service_djs432e";
     const EMAILJS_TEMPLATE_ID = "template_qcem0j3";
@@ -942,7 +1013,7 @@
     })();
 
     // 메일 전송 공통 처리 함수
-    function handleEmailSend(name, phone, message, submitBtn) {
+    function handleEmailSend(name, phone, birth, type, message, submitBtn) {
       submitBtn.disabled = true;
       const originalText = submitBtn.innerText;
       submitBtn.innerText = "전송 중...";
@@ -950,6 +1021,8 @@
       const templateParams = {
         from_name: name,
         phone_number: phone,
+        birth_date: birth,
+        interest_type: type,
         message: message || "문의사항 없음"
       };
 
@@ -971,9 +1044,11 @@
       e.preventDefault();
       const name = document.getElementById("main_name").value.trim();
       const phone = document.getElementById("main_phone").value.trim();
+      const birth = document.getElementById("main_birth").value.trim();
+      const type = document.querySelector('input[name="main_interest_type"]:checked').value;
       const message = document.getElementById("main_message").value.trim();
       const btn = document.getElementById("mainSubmitBtn");
-      handleEmailSend(name, phone, message, btn);
+      handleEmailSend(name, phone, birth, type, message, btn);
     });
 
     // 2) 팝업 폼 제출 이벤트
@@ -981,9 +1056,11 @@
       e.preventDefault();
       const name = document.getElementById("modal_name").value.trim();
       const phone = document.getElementById("modal_phone").value.trim();
+      const birth = document.getElementById("modal_birth").value.trim();
+      const type = document.querySelector('input[name="modal_interest_type"]:checked').value;
       const message = document.getElementById("modal_message").value.trim();
       const btn = document.getElementById("modalSubmitBtn");
-      handleEmailSend(name, phone, message, btn);
+      handleEmailSend(name, phone, birth, type, message, btn);
     });
 
     // ==========================================
@@ -1020,15 +1097,11 @@
     function closeBookingModal() {
       if (bookingModal) bookingModal.classList.add('hidden');
     }
-    function closeForToday() {
-      const today = new Date().toISOString().split('T')[0];
-      try {
-        localStorage.setItem('hideParkonePopupDate', today);
-      } catch (e) {}
-      closeBookingModal();
-    }
 
     document.addEventListener('DOMContentLoaded', () => {
+      // 팝업창 처음부터 즉시 노출
+      openBookingModal();
+
       // 페이드업 스크롤 감지
       const fadeElements = document.querySelectorAll('.fade-up-element');
       const observer = new IntersectionObserver((entries) => {
@@ -1043,17 +1116,6 @@
         rootMargin: '0px 0px -50px 0px'
       });
       fadeElements.forEach(el => observer.observe(el));
-
-      // 팝업 열기 체크
-      try {
-        const hideDate = localStorage.getItem('hideParkonePopupDate');
-        const today = new Date().toISOString().split('T')[0];
-        if (hideDate !== today) {
-          setTimeout(openBookingModal, 600);
-        }
-      } catch (e) {
-        setTimeout(openBookingModal, 600);
-      }
 
       // 커스텀 커서 (PC 환경)
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -1082,7 +1144,7 @@
         }
         animateRing();
 
-        document.querySelectorAll('a, button, input, select, textarea').forEach(el => {
+        document.querySelectorAll('a, button, input, select, textarea, label').forEach(el => {
           el.addEventListener('mouseenter', () => document.body.classList.add('cursor-active'));
           el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-active'));
         });
