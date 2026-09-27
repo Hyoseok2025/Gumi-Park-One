@@ -955,12 +955,12 @@
     </button>
   </div>
 
-  <!-- 이미지 기반 이벤트 팝업 모달 (35.jpg + 닫기/등록 버튼 + 하루동안 닫기 체크박스) -->
-  <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 sm:p-4 hidden">
+  <!-- 이미지 기반 이벤트 팝업 모달 (35.jpg) -->
+  <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 sm:p-4" style="display: flex;">
     <div class="bg-[#121622] border border-[#D4AF37]/70 rounded-2xl w-full max-w-md max-h-[95vh] overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.25)] flex flex-col relative">
       
       <!-- 우측 상단 닫기 X 버튼 -->
-      <button onclick="closeBookingModal()" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/70 border border-[#D4AF37]/40 text-gray-300 hover:text-white flex items-center justify-center transition-all">
+      <button type="button" onclick="closeBookingModal()" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/70 border border-[#D4AF37]/40 text-gray-300 hover:text-white flex items-center justify-center transition-all cursor-pointer">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
@@ -973,10 +973,10 @@
       <div class="p-4 bg-[#0C0F17] border-t border-[#2A241A] space-y-3">
         <!-- 닫기와 관심고객 등록하기 2단 버튼 -->
         <div class="flex items-center gap-2">
-          <button type="button" onclick="closeBookingModal()" class="w-1/3 py-2.5 rounded-xl border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white text-xs font-bold transition-all">
+          <button type="button" onclick="closeBookingModal()" class="w-1/3 py-2.5 rounded-xl border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white text-xs font-bold transition-all cursor-pointer">
             닫기
           </button>
-          <button type="button" onclick="goToRegisterFromModal()" class="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#997D25] text-black text-xs font-black tracking-wide hover:brightness-110 shadow-md transition-all flex items-center justify-center gap-1.5">
+          <button type="button" onclick="goToRegisterFromModal()" class="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#997D25] text-black text-xs font-black tracking-wide hover:brightness-110 shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer">
             <span>관심고객 등록하기</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
           </button>
@@ -1077,10 +1077,11 @@
     const bookingModal = document.getElementById('bookingModal');
 
     function openBookingModal() {
-      if (bookingModal) bookingModal.classList.remove('hidden');
+      if (bookingModal) {
+        bookingModal.style.display = 'flex';
+      }
     }
 
-    // 닫기 실행 시 '오늘 하루 동안 보지 않기' 체크 여부 확인 후 저장
     function closeBookingModal() {
       const dontShowCheck = document.getElementById('modal_dont_show_today');
       if (dontShowCheck && dontShowCheck.checked) {
@@ -1089,10 +1090,11 @@
           localStorage.setItem('hideParkonePopupDate', today);
         } catch (e) {}
       }
-      if (bookingModal) bookingModal.classList.add('hidden');
+      if (bookingModal) {
+        bookingModal.style.display = 'none';
+      }
     }
 
-    // 팝업에서 [관심고객 등록하기] 클릭 시 팝업 닫고 하단 등록 폼으로 스크롤 이동
     function goToRegisterFromModal() {
       closeBookingModal();
       const resSection = document.getElementById('reservation');
@@ -1102,15 +1104,20 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 오늘 하루 동안 보지 않기가 저장되어 있는지 체크
+      // 오늘 하루 동안 보지 않기 여부 체크
+      let isHidden = false;
       try {
         const hideDate = localStorage.getItem('hideParkonePopupDate');
         const today = new Date().toISOString().split('T')[0];
-        if (hideDate !== today) {
-          openBookingModal();
+        if (hideDate === today) {
+          isHidden = true;
         }
-      } catch (e) {
-        openBookingModal();
+      } catch (e) {}
+
+      if (isHidden) {
+        if (bookingModal) bookingModal.style.display = 'none';
+      } else {
+        if (bookingModal) bookingModal.style.display = 'flex';
       }
 
       // 페이드업 스크롤 감지
