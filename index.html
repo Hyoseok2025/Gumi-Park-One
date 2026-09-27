@@ -34,16 +34,16 @@
   </script>
 
   <style>
-    /* 이벤트 팝업 모달: 최상위 레이어에서 절대 꺼지지 않고 항상 표시 */
+    /* 이벤트 팝업 모달: 처음 로딩 시부터 무조건 최상단 화면에 표시 */
     #bookingModal {
-      display: flex !important;
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      z-index: 2147483647 !important; /* 브라우저 최고 우선순위 z-index */
-      background-color: rgba(0, 0, 0, 0.85);
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999999;
+      background-color: rgba(0, 0, 0, 0.88);
       align-items: center;
       justify-content: center;
       padding: 16px;
@@ -71,7 +71,7 @@
       background-color: #121622;
     }
 
-    /* 커스텀 네모 V 체크박스 */
+    /* 네모 V 체크박스 커스텀 */
     .custom-box-check input[type="radio"]:checked + .custom-box-indicator {
       background-color: #D4AF37;
       border-color: #F3E5AB;
@@ -89,7 +89,7 @@
 <body class="bg-[#07090D] text-gray-200 selection:bg-[#D4AF37] selection:text-black">
 
   <!-- ========================================== -->
-  <!-- 35.jpg 이벤트 팝업 모달 (절대 안 꺼지는 고정 구조) -->
+  <!-- 35.jpg 이벤트 팝업 모달 (처음부터 무조건 열려있는 구조) -->
   <!-- ========================================== -->
   <div id="bookingModal">
     <div class="bg-[#121622] border-2 border-[#D4AF37] rounded-2xl w-full max-w-md max-h-[92vh] overflow-hidden shadow-[0_0_60px_rgba(212,175,55,0.4)] flex flex-col relative">
@@ -99,12 +99,12 @@
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
-      <!-- 35.jpg 이벤트 이미지 영역 (스크롤 가능) -->
+      <!-- 35.jpg 이벤트 이미지 영역 -->
       <div class="overflow-y-auto max-h-[66vh] bg-black">
         <img src="images/35.jpg" alt="구미 파크원 데시앙 관심고객등록 이벤트" class="w-full h-auto object-contain block">
       </div>
 
-      <!-- 하단 버튼 및 오늘 하루 닫기 영역 -->
+      <!-- 하단 버튼 및 오늘 하루 동안 보지 않기 영역 -->
       <div class="p-4 bg-[#0C0F17] border-t border-[#2A241A] space-y-3">
         <div class="flex items-center gap-2">
           <button type="button" onclick="closeBookingModal()" class="w-1/3 py-2.5 rounded-xl border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white text-xs font-bold transition-all cursor-pointer">
@@ -936,13 +936,13 @@
       </div>
 
       <p class="text-[11px] text-gray-500 text-center leading-relaxed">
-        ※ 본 웹사이트에 사용된 CG, 조감도, 투시도 등은 소비자의 이해를돕기 위해 생성형 AI 이미지를 활용하였으며 실제와 다를 수 있습니다.<br>
+        ※ 본 웹사이트에 사용된 CG, 조감도, 투시도 등은 소비자의 이해를 돕기 위해 생성형 AI 이미지를 활용하였으며 실제와 다를 수 있습니다.<br>
         © 2026 GUMI PARK ONE DESIAN. All Rights Reserved.
       </p>
     </div>
   </footer>
 
-  <!-- 모바일 하단 바 -->
+  <!-- 모바일 하단 플로팅 바 -->
   <div class="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#0C0F17]/95 border-t border-[#2A241A] px-4 py-3 flex items-center justify-between gap-3">
     <a href="tel:010-5031-0330" class="flex-1 py-3 bg-[#121622] border border-[#D4AF37]/50 rounded-lg text-[#D4AF37] text-xs font-bold text-center">
       <i class="fa-solid fa-phone mr-1"></i> 전화상담
@@ -953,7 +953,9 @@
   </div>
 
   <script>
-    // EmailJS 키 연동
+    // ==========================================
+    // EmailJS 연동
+    // ==========================================
     const EMAILJS_SERVICE_ID = "service_djs432e";
     const EMAILJS_TEMPLATE_ID = "template_qcem0j3";
     const EMAILJS_PUBLIC_KEY = "larizBa2hL0IyPiKf";
@@ -1003,12 +1005,12 @@
     });
 
     // ==========================================
-    // 팝업 모달 제어 함수
+    // 팝업 모달 제어 함수 (처음부터 항상 뜸)
     // ==========================================
     const modalEl = document.getElementById('bookingModal');
 
     function openBookingModal() {
-      if (modalEl) modalEl.style.setProperty('display', 'flex', 'important');
+      if (modalEl) modalEl.style.display = 'flex';
     }
 
     function closeBookingModal() {
@@ -1016,14 +1018,14 @@
       if (chk && chk.checked) {
         const todayStr = new Date().toISOString().slice(0, 10);
         try {
-          localStorage.setItem('hideParkonePopup_final', todayStr);
+          localStorage.setItem('hideParkonePopup_direct', todayStr);
         } catch (e) {}
       }
-      if (modalEl) modalEl.style.setProperty('display', 'none', 'important');
+      if (modalEl) modalEl.style.display = 'none';
     }
 
     function goToRegisterFromModal() {
-      if (modalEl) modalEl.style.setProperty('display', 'none', 'important');
+      if (modalEl) modalEl.style.display = 'none';
       const resSection = document.getElementById('reservation');
       if (resSection) {
         resSection.scrollIntoView({ behavior: 'smooth' });
@@ -1056,22 +1058,17 @@
       }
     }
 
-    // 페이지 로드 시 실행 (하루 동안 보지 않기 체크 시에만 숨김 처리)
+    // 스크롤 페이드업 애니메이션만 등록 (모달은 스크립트 간섭 없이 기본 flex 상태 유지)
     window.addEventListener('DOMContentLoaded', () => {
-      let isHidden = false;
+      // 체크박스를 누르고 '닫기'를 누른 날에만 숨김 처리
       try {
-        const savedDate = localStorage.getItem('hideParkonePopup_final');
+        const savedDate = localStorage.getItem('hideParkonePopup_direct');
         const todayStr = new Date().toISOString().slice(0, 10);
-        if (savedDate === todayStr) {
-          isHidden = true;
+        if (savedDate === todayStr && modalEl) {
+          modalEl.style.display = 'none';
         }
       } catch (e) {}
 
-      if (isHidden && modalEl) {
-        modalEl.style.setProperty('display', 'none', 'important');
-      }
-
-      // 페이드업 애니메이션 등록
       const fadeElements = document.querySelectorAll('.fade-up-element');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
